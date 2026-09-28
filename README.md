@@ -117,4 +117,79 @@ The main hyperparameters used in the original experiment were:
 Five train-validation configurations were evaluated:
 | Configuration | Training | Validation | 
 |---|---:|---:|
-|
+| Scenario 1 | 70% | 30% |
+| Scenario 2 | 75% | 25% |
+| Scenario 3 | 80% | 20% |
+| Scenario 4 | 85% | 15% |
+| Scenario 5 | 90% | 10% |
+
+The test data was kept separate from the training and validation data. The 90:10 configuration produced the highest documented BLEU score in the experiment.
+
+## Results
+1. Model Comparison
+
+The pretrained MarianMT model was evaluated before fine-tuning and compared with models fine-tuned using different train-validation split configurations.
+
+| Model | Train : Validation | Unigram | Bigram | Trigram | 4-gram | BLEU |
+|---|---:|---:|---:|---:|---:|---:|
+| MarianMT Baseline | — | 0.523985 | 0.277398 | 0.156654 | 0.910766 | 21.30 |
+| Fine-tuned MarianMT | 70:30 | 0.618372 | 0.387461 | 0.252331 | 0.167867 | 31.73 |
+| Fine-tuned MarianMT | 75:25 | 0.619293 | 0.388465 | 0.253363 | 0.169127 | 31.86 |
+| Fine-tuned MarianMT | 80:20 | 0.619970 | 0.389378 | 0.253643 | 0.168683 | 31.87 |
+| Fine-tuned MarianMT | 85:15 | 0.620015 | 0.388849 | 0.252751 | 0.167850 | 31.80 |
+| Fine-tuned MarianMT | 90:10 | 0.621940 | 0.391832 | 0.256202 | 0.171001 | 32.14 |
+
+The baseline MarianMT model achieved a BLEU score of 21.30, while the fine-tuned configurations achieved BLEU scores above 31. The highest documented BLEU score was 32.14, obtained using the 90:10 train-validation configuration. The corresponding n-gram precision values were:
+- Unigram: 0.621940
+- Bigram: 0.391832
+- Trigram: 0.256202
+- 4-gram: 0.171001
+
+2. Training History
+
+The recorded training history for the 90:10 configuration is shown below.
+
+| Epoch | Training Loss | Validation Loss | BLEU | Gen Len |
+|---|---:|---:|---:|---:|
+| 1 | 1.794600 | 1.667744 | 30.934200 | 16.858400 |
+| 2 | 1.678300 | 1.642274 | 31.236900 | 16.874000 |
+| 3 | 1.605700 | 1.635424 | 31.357800 | 16.876300 |
+
+The training loss decreased consistently from 1.794600 in epoch 1 to 1.605700 in epoch 3. The validation loss also decreased from 1.667744 to 1.635424, while BLEU increased from 30.934200 to 31.357800 during the recorded training epochs. The original thesis describes the validation loss as relatively stable during the three recorded epochs.
+
+3. Punctuation Preprocessing Experiment
+
+An additional experiment investigated whether removing question marks during preprocessing affected translation performance.
+| Preprocessing Configuration | Unigram | Bigram | Trigram | 4-gram | BLEU |
+|---|---:|---:|---:|---:|---:|
+| Question marks retained | 0.614268 | 0.382124	| 0.247077 | 0.162699 | 31.16 |
+| Question marks removed | 0.621940	| 0.391832 | 0.256202 | 0.171001 | 32.14 |
+
+## Technologies & Tools
+Programming Language
+- Python
+
+NLP & Machine Learning
+- Hugging Face Transformers
+- MarianMT
+- PyTorch
+- SentencePiece
+
+Evaluation
+- SacreBLEU
+- BLEU
+- N-gram Precision
+
+Data Processing
+- Pandas
+- NumPy
+
+## Research Context
+
+This project is based on my undergraduate thesis:
+
+"MARIANMT BERBASIS TRANSFORMER UNTUK PENERJEMAHAN BAHASA INGGRIS-INDONESIA DENGAN FINE-TUNING DATA TECHNOLOGY, EDUCATION, AND DESIGN (TED) TALKS"
+
+## Author
+
+**Adinda Hermawan**  
